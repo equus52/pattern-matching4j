@@ -518,6 +518,10 @@ dependencies {
   compile "equus:pattern-matching4j:${version}"
 }
 ```
+## Build
+
+`gradlew build`
+
 
 ## Requirements
 
@@ -530,3 +534,5 @@ dependencies {
 ## License
 
 pattern-matching4j is released under the [MIT License](http://www.opensource.org/licenses/MIT).
+
+
