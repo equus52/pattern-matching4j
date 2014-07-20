@@ -3,8 +3,13 @@
 
 ext {
   // product
+  groupId = 'equus'
+  artifactId = project.name
   productVersion = '0.1.0'
   
   // Java
   jdkVersion = '1.8'
+  
+  // maven
+  releaseRepositoryDir = '../maven'
 }

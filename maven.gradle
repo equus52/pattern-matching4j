@@ -1,0 +1,11 @@
+// called from each project applying maven plugin
+apply plugin: 'maven'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri(releaseRepositoryDir))
+            pom.artifactId = project.name
+        }
+    }
+}

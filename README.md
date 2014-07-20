@@ -512,10 +512,12 @@ Gradle:
 
 ```groovy
 repositories {
-  mavenCentral()
+  maven {
+    url 'http://equus52.github.io/maven/'
+  }
 }
 dependencies {
-  compile "equus:pattern-matching4j:${version}"
+  compile 'equus:pattern-matching4j:0.1.0'
 }
 ```
 ## Build

@@ -11,6 +11,9 @@ sourceCompatibility = jdkVersion
 targetCompatibility = jdkVersion
 tasks.withType(AbstractCompile) { options.bootClasspath = "${System.getProperty("java.home")}/lib/rt.jar" }
 
+project.group = groupId
+project.version = productVersion
+
 // jar settings
 jar {
   manifest {
