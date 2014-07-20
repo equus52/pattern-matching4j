@@ -1,19 +1,8 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
-
-ext {
-  jdkVersion = '1.8'
-  productVersion = '0.0.1'
-}
-
 apply from: 'build-base.gradle'
-
-repositories {  mavenCentral()   }
+apply from: 'java.gradle'
+apply from: 'eclipse.gradle'
 
 dependencies {
   compile 'com.google.code.findbugs:jsr305:2.0.1'
   compile 'org.hamcrest:hamcrest-all:1.3'
-
-  testCompile 'junit:junit:4.11'
-  testCompile 'mockit:mockit:0.999.4'
 }

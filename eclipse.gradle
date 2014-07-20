@@ -1,0 +1,75 @@
+// called from each project applying eclipse plugin
+apply plugin: 'eclipse'
+
+// project name  settings
+eclipse.project { name project.name }
+
+// JRE settings
+if (project.hasProperty('jreName')) {
+  eclipse.classpath {
+    containers.clear()
+    containers << 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/' + jreName
+    file {
+      beforeMerged { classpath ->
+        classpath.entries.removeAll { it.kind == 'con' && it.path.startsWith('org.eclipse.jdt.launching.JRE_CONTAINER') }
+      }
+    }
+  }
+}
+
+// classpath variable settings
+eclipse.pathVariables 'GRADLE_USER_HOME': gradle.gradleUserHomeDir
+
+// local classpath to use relative path
+eclipse.classpath.file {
+  whenMerged { classpath ->
+    classpath.entries.each {
+      def baseDir = project.projectDir.getAbsolutePath().replace('\\', '/')
+      if (it.path.startsWith(baseDir)) {
+        it.path = it.path.replace(baseDir, ".")
+      }
+      def parentDir = project.projectDir.getParentFile().getAbsolutePath().replace('\\', '/')
+      if (it.path.startsWith(parentDir)) {
+        it.path = it.path.replace(parentDir, '..')
+      }
+    }
+  }
+}
+
+// make source dirs task
+task makeSourceDirs {
+  def sources = [
+    sourceSets.main,
+    sourceSets.test
+  ]
+  sources*.allSource*.srcDirs.flatten().each { File srcDir ->
+    if (!srcDir.isDirectory()) {
+      println "making $srcDir"
+      srcDir.mkdirs()
+    }
+  }
+}
+eclipseClasspath.dependsOn makeSourceDirs
+
+// provided scope implements
+eclipse.classpath {
+  plusConfigurations += [configurations.provided]
+}
+// testRuntime and provided exclude runtime to be [exported = false]
+configurations {
+  noExport.extendsFrom(provided)
+  noExport.extendsFrom(testRuntime)
+}
+eclipse.classpath.file {
+  beforeMerged { classpath ->
+    configurations.runtime.incoming.resolutionResult.allDependencies.findAll{ it.requested instanceof ModuleComponentSelector }.each {
+      def dep = it.requested
+      configurations.noExport.exclude group: dep.group, module: dep.module
+    }
+  }
+}
+eclipse.classpath {
+  plusConfigurations += [
+    configurations.noExport] // noExportConfigurations must be subset of plusConfigurations
+  noExportConfigurations += [configurations.noExport]
+}

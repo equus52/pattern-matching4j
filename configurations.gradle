@@ -1,0 +1,10 @@
+// configuration settings
+// called one time from root project
+
+ext {
+  // product
+  productVersion = '0.1.0'
+  
+  // Java
+  jdkVersion = '1.8'
+}
