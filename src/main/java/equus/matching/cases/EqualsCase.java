@@ -1,9 +1,9 @@
-package equus.prettan.cases;
+package equus.matching.cases;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import equus.prettan.NoConvertCase;
+import equus.matching.NoConvertCase;
 
 public class EqualsCase<S> implements NoConvertCase<S> {
   private final S matchValue;

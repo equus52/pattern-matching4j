@@ -1,4 +1,4 @@
-package equus.prettan.cases;
+package equus.matching.cases;
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -6,9 +6,9 @@ import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 
-import equus.prettan.Case;
-import equus.prettan.CaseBlock;
-import equus.prettan.CaseFunction;
+import equus.matching.Case;
+import equus.matching.CaseBlock;
+import equus.matching.CaseFunction;
 
 public class SomeCase<T> implements Case<Optional<T>, T> {
 

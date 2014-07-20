@@ -1,4 +1,4 @@
-package equus.prettan;
+package equus.matching;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;

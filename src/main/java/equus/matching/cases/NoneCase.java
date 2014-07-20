@@ -1,14 +1,14 @@
-package equus.prettan.cases;
+package equus.matching.cases;
 
 import java.util.Optional;
 import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 
-import equus.prettan.Block;
-import equus.prettan.CaseBlock;
-import equus.prettan.CaseFunction;
-import equus.prettan.NothingCase;
+import equus.matching.Block;
+import equus.matching.CaseBlock;
+import equus.matching.CaseFunction;
+import equus.matching.NothingCase;
 
 public class NoneCase implements NothingCase<Optional<?>> {
 

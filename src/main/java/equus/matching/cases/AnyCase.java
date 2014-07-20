@@ -1,6 +1,6 @@
-package equus.prettan.cases;
+package equus.matching.cases;
 
-import equus.prettan.NoConvertCase;
+import equus.matching.NoConvertCase;
 
 public class AnyCase<S> implements NoConvertCase<S> {
 

@@ -1,11 +1,11 @@
-package equus.prettan.cases;
+package equus.matching.cases;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.hamcrest.Matcher;
 
-import equus.prettan.NoConvertCase;
+import equus.matching.NoConvertCase;
 
 public class MatcherCase<S> implements NoConvertCase<S> {
   private final Matcher<S> matcher;

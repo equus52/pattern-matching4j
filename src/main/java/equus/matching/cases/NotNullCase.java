@@ -1,8 +1,8 @@
-package equus.prettan.cases;
+package equus.matching.cases;
 
 import javax.annotation.Nullable;
 
-import equus.prettan.NoConvertCase;
+import equus.matching.NoConvertCase;
 
 public class NotNullCase<S> implements NoConvertCase<S> {
 

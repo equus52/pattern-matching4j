@@ -1,11 +1,11 @@
-package equus.prettan.cases;
+package equus.matching.cases;
 
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import equus.prettan.NoConvertCase;
+import equus.matching.NoConvertCase;
 
 public class PredicateCase<S> implements NoConvertCase<S> {
   private final Predicate<S> predicate;

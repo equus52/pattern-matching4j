@@ -1,13 +1,13 @@
-package equus.prettan;
+package equus.matching;
 
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
-import equus.prettan.cases.NoneCase.NoneCaseBlock;
-import equus.prettan.cases.NoneCase.NoneCaseFunction;
-import equus.prettan.cases.SomeCase.SomeCaseBlock;
-import equus.prettan.cases.SomeCase.SomeCaseFunction;
+import equus.matching.cases.NoneCase.NoneCaseBlock;
+import equus.matching.cases.NoneCase.NoneCaseFunction;
+import equus.matching.cases.SomeCase.SomeCaseBlock;
+import equus.matching.cases.SomeCase.SomeCaseFunction;
 
 public class OptionalMatcher<T> {
 

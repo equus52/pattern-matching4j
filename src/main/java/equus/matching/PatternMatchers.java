@@ -1,4 +1,4 @@
-package equus.prettan;
+package equus.matching;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,21 +16,21 @@ import javax.annotation.Nullable;
 
 import org.hamcrest.Matcher;
 
-import equus.prettan.cases.AnyCase;
-import equus.prettan.cases.ClassCase;
-import equus.prettan.cases.DisjunctionCase;
-import equus.prettan.cases.EqualsCase;
-import equus.prettan.cases.MatcherCase;
-import equus.prettan.cases.NoneCase;
-import equus.prettan.cases.NotNullCase;
-import equus.prettan.cases.NullCase;
-import equus.prettan.cases.PredicateCase;
-import equus.prettan.cases.RegexCase;
-import equus.prettan.cases.SomeCase;
-import equus.prettan.cases.NoneCase.NoneCaseBlock;
-import equus.prettan.cases.NoneCase.NoneCaseFunction;
-import equus.prettan.cases.SomeCase.SomeCaseBlock;
-import equus.prettan.cases.SomeCase.SomeCaseFunction;
+import equus.matching.cases.AnyCase;
+import equus.matching.cases.ClassCase;
+import equus.matching.cases.DisjunctionCase;
+import equus.matching.cases.EqualsCase;
+import equus.matching.cases.MatcherCase;
+import equus.matching.cases.NoneCase;
+import equus.matching.cases.NotNullCase;
+import equus.matching.cases.NullCase;
+import equus.matching.cases.PredicateCase;
+import equus.matching.cases.RegexCase;
+import equus.matching.cases.SomeCase;
+import equus.matching.cases.NoneCase.NoneCaseBlock;
+import equus.matching.cases.NoneCase.NoneCaseFunction;
+import equus.matching.cases.SomeCase.SomeCaseBlock;
+import equus.matching.cases.SomeCase.SomeCaseFunction;
 
 public final class PatternMatchers {
 

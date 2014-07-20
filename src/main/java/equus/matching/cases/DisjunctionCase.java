@@ -1,11 +1,11 @@
-package equus.prettan.cases;
+package equus.matching.cases;
 
 import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import equus.prettan.NoConvertCase;
+import equus.matching.NoConvertCase;
 
 public class DisjunctionCase<S> implements NoConvertCase<S> {
 

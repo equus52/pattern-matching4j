@@ -1,4 +1,4 @@
-package equus.prettan;
+package equus.matching;
 
 import javax.annotation.Nullable;
 

@@ -1,4 +1,4 @@
-package equus.prettan;
+package equus.matching;
 
 @FunctionalInterface
 public interface Block {

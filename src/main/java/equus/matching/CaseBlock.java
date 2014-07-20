@@ -1,4 +1,4 @@
-package equus.prettan;
+package equus.matching;
 
 public interface CaseBlock<S> extends Matcher<S> {
 

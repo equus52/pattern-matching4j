@@ -1,6 +1,6 @@
-package equus.prettan;
+package equus.matching;
 
-import static equus.prettan.PatternMatchers.*;
+import static equus.matching.PatternMatchers.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 

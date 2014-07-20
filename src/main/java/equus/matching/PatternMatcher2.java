@@ -1,4 +1,4 @@
-package equus.prettan;
+package equus.matching;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package equus.prettan;
+package equus.matching;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

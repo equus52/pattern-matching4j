@@ -1,8 +1,8 @@
-package equus.prettan.cases;
+package equus.matching.cases;
 
 import javax.annotation.Nullable;
 
-import equus.prettan.NothingCase;
+import equus.matching.NothingCase;
 
 public class NullCase<S> implements NothingCase<S> {
 
