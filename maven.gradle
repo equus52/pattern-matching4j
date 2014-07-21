@@ -4,7 +4,7 @@ apply plugin: 'maven'
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: uri(releaseRepositoryDir))
+            repository(url: releaseRepositoryURL)
             pom.artifactId = project.name
         }
     }

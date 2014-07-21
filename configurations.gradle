@@ -11,5 +11,5 @@ ext {
   jdkVersion = '1.8'
   
   // maven
-  releaseRepositoryDir = '../maven'
+  releaseRepositoryURL = uri('../maven')
 }
