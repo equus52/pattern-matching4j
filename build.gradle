@@ -1,7 +1,8 @@
 apply from: 'build-base.gradle'
-apply from: 'java.gradle'
-apply from: 'eclipse.gradle'
-apply from: 'maven.gradle'
+
+apply from: 'gradle/java.gradle'
+apply from: 'gradle/eclipse.gradle'
+apply from: 'gradle/maven.gradle'
 
 dependencies {
   compile 'com.google.code.findbugs:jsr305:2.0.1'
