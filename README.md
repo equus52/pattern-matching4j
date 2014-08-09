@@ -1,6 +1,5 @@
-pattern-matching4j
+pattern-matching4j [![Build Status](https://secure.travis-ci.org/equus52/pattern-matching4j.png)](https://travis-ci.org/equus52/pattern-matching4j)
 =======
-[![Build Status](https://secure.travis-ci.org/equus52/pattern-matching4j.png)](https://travis-ci.org/equus52/pattern-matching4j)
 
 Java pattern matching library
 
