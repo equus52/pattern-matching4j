@@ -505,9 +505,6 @@ public class PatternMatchersTest {
 
 ## Installation
 
-coming soon..
-
-
 Gradle:
 
 ```groovy
