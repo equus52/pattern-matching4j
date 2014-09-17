@@ -2,4 +2,4 @@
 apply from: 'configurations.gradle'
 apply from: 'libraries.gradle'
 
-task wrapper(type: Wrapper) { gradleVersion = '2.0' }
+task wrapper(type: Wrapper) { gradleVersion = '2.1' }
