@@ -22,13 +22,13 @@ import equus.matching.cases.DisjunctionCase;
 import equus.matching.cases.EqualsCase;
 import equus.matching.cases.MatcherCase;
 import equus.matching.cases.NoneCase;
+import equus.matching.cases.NoneCase.NoneCaseBlock;
+import equus.matching.cases.NoneCase.NoneCaseFunction;
 import equus.matching.cases.NotNullCase;
 import equus.matching.cases.NullCase;
 import equus.matching.cases.PredicateCase;
 import equus.matching.cases.RegexCase;
 import equus.matching.cases.SomeCase;
-import equus.matching.cases.NoneCase.NoneCaseBlock;
-import equus.matching.cases.NoneCase.NoneCaseFunction;
 import equus.matching.cases.SomeCase.SomeCaseBlock;
 import equus.matching.cases.SomeCase.SomeCaseFunction;
 
@@ -48,6 +48,16 @@ public final class PatternMatchers {
   @SafeVarargs
   public static <S, R> Optional<R> match(@Nullable S subject, @Nonnull CaseFunction<S, R>... caseFunctions) {
     return subject(subject).matches(caseFunctions);
+  }
+
+  public static <S, T extends S> void instanceOf(@Nullable S subject, @Nonnull Class<T> matchClass,
+      @Nonnull Consumer<T> consumer) {
+    subject(subject).matches(caseClass(matchClass, consumer));
+  }
+
+  public static <S, T extends S, R> Optional<R> instanceOf(@Nullable S subject, @Nonnull Class<T> matchClass,
+      @Nonnull Function<T, R> function) {
+    return subject(subject).matches(caseClassReturn(matchClass, function));
   }
 
   public static <S> EqualsCase<S> caseValue(S value) {
