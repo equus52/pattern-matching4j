@@ -2,9 +2,12 @@ apply from: 'build-base.gradle'
 
 apply from: 'gradle/java.gradle'
 apply from: 'gradle/eclipse.gradle'
-apply from: 'gradle/maven.gradle' // uploadArchives -PsonatypePassword=password
 
 dependencies {
   compile 'com.google.code.findbugs:jsr305:2.0.1'
   compile 'org.hamcrest:hamcrest-all:1.3'
+}
+
+if (gradle.startParameter.taskNames.contains('uploadArchives')) {
+  apply from: 'gradle/maven.gradle' // uploadArchives -PsonatypePassword=password
 }

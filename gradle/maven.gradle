@@ -2,14 +2,8 @@
 apply plugin: 'signing'
 apply plugin: 'maven'
 
-// usage:
-// -PsonatypePassword=password
-if (!project.hasProperty('sonatypePassword')) {
-  ext.sonatypePassword = null
-}
-
 signing { sign configurations.archives }
-println sonatypePassword
+
 uploadArchives {
   repositories.mavenDeployer {
     if ( version.endsWith( 'SNAPSHOT' ) ) {
