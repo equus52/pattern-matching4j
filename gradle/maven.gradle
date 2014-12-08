@@ -1,11 +1,52 @@
 // called from each project applying maven plugin
+apply plugin: 'signing'
 apply plugin: 'maven'
 
+// usage:
+// -PsonatypePassword=password
+if (!project.hasProperty('sonatypePassword')) {
+  ext.sonatypePassword = null
+}
+
+signing { sign configurations.archives }
+println sonatypePassword
 uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: releaseRepositoryURL)
-            pom.artifactId = project.name
-        }
+  repositories.mavenDeployer {
+    if ( version.endsWith( 'SNAPSHOT' ) ) {
+      repository(url: 'https://oss.sonatype.org/content/repositories/snapshots') {
+        authentication(userName: sonatypeUsername, password: sonatypePassword)
+      }
+    } else {
+      repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2') {
+        authentication(userName: sonatypeUsername, password: sonatypePassword)
+      }
     }
+    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    pom{
+      artifactId = project.artifactId
+      project {
+        name 'pattern-matching4j'
+        packaging 'jar'
+        description project.description
+        url 'https://github.com/equus52/pattern-matching4j'
+        scm {
+          url 'git@github.com:equus52/pattern-matching4j.git'
+          connection 'scm:git:git@github.com:equus52/pattern-matching4j.git'
+          developerConnection 'scm:git:git@github.com:equus52/pattern-matching4j.git'
+        }
+        licenses {
+          license {
+            name 'MIT License'
+            url 'http://www.opensource.org/licenses/MIT'
+            distribution 'repo'
+          }
+        }
+        developers {
+          developer {
+            id sonatypeUsername
+            name sonatypeFullname
+          }
+        }
+      }}
+  }
 }

@@ -3,13 +3,11 @@
 
 ext {
   // product
-  groupId = 'equus'
+  description = 'Java pattern matching library with Lambda expressions'
+  groupId = 'com.github.equus52'
   artifactId = project.name
   productVersion = '0.1.1-SNAPSHOT'
   
   // Java
   jdkVersion = '1.8'
-  
-  // maven
-  releaseRepositoryURL = uri('../maven')
 }

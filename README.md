@@ -1,7 +1,7 @@
 pattern-matching4j [![Build Status](https://secure.travis-ci.org/equus52/pattern-matching4j.png)](https://travis-ci.org/equus52/pattern-matching4j)
 =======
 
-Java pattern matching library
+Java pattern matching library with Lambda expressions
 
 
 ## Usage
