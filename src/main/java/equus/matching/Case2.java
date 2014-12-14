@@ -44,7 +44,7 @@ public class Case2<S1, T1, S2, T2> implements Matcher2<S1, S2> {
     };
   }
 
-  public <R> CaseFunction2<S1, S2, R> thenReturn(@Nonnull BiFunction<T1, T2, R> function) {
+  public <R> CaseFunction2<S1, S2, R> then_(@Nonnull BiFunction<T1, T2, R> function) {
     return new CaseFunction2<S1, S2, R>() {
 
       @Override

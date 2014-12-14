@@ -21,16 +21,16 @@ import equus.matching.cases.ClassCase;
 import equus.matching.cases.DisjunctionCase;
 import equus.matching.cases.EqualsCase;
 import equus.matching.cases.MatcherCase;
-import equus.matching.cases.NoneCase;
-import equus.matching.cases.NoneCase.NoneCaseBlock;
-import equus.matching.cases.NoneCase.NoneCaseFunction;
+import equus.matching.cases.OptionalEmptyCase;
+import equus.matching.cases.OptionalEmptyCase.OptionalEmptyCaseBlock;
+import equus.matching.cases.OptionalEmptyCase.OptionalEmptyCaseFunction;
 import equus.matching.cases.NotNullCase;
 import equus.matching.cases.NullCase;
 import equus.matching.cases.PredicateCase;
 import equus.matching.cases.RegexCase;
-import equus.matching.cases.SomeCase;
-import equus.matching.cases.SomeCase.SomeCaseBlock;
-import equus.matching.cases.SomeCase.SomeCaseFunction;
+import equus.matching.cases.OptionalPresentCase;
+import equus.matching.cases.OptionalPresentCase.OptionalPresentCaseBlock;
+import equus.matching.cases.OptionalPresentCase.OptionalPresentCaseFunction;
 
 public final class PatternMatchers {
 
@@ -52,12 +52,12 @@ public final class PatternMatchers {
 
   public static <S, T extends S> void instanceOf(@Nullable S subject, @Nonnull Class<T> matchClass,
       @Nonnull Consumer<T> consumer) {
-    subject(subject).matches(caseClass(matchClass, consumer));
+    subject(subject).matches(caseType(matchClass, consumer));
   }
 
   public static <S, T extends S, R> Optional<R> instanceOf(@Nullable S subject, @Nonnull Class<T> matchClass,
       @Nonnull Function<T, R> function) {
-    return subject(subject).matches(caseClassReturn(matchClass, function));
+    return subject(subject).matches(caseType_(matchClass, function));
   }
 
   public static <S> EqualsCase<S> caseValue(S value) {
@@ -68,8 +68,8 @@ public final class PatternMatchers {
     return caseValue(value).then(consumer);
   }
 
-  public static <S, R> CaseFunction<S, R> caseValueReturn(@Nonnull S value, @Nonnull Function<S, R> function) {
-    return caseValue(value).thenReturn(function);
+  public static <S, R> CaseFunction<S, R> caseValue_(@Nonnull S value, @Nonnull Function<S, R> function) {
+    return caseValue(value).then_(function);
   }
 
   public static <S> AnyCase<S> caseDefault() {
@@ -84,8 +84,8 @@ public final class PatternMatchers {
     return PatternMatchers.<S> caseDefault().then(consumer);
   }
 
-  public static <S, R> CaseFunction<S, R> caseDefaultReturn(@Nonnull Function<S, R> function) {
-    return PatternMatchers.<S> caseDefault().thenReturn(function);
+  public static <S, R> CaseFunction<S, R> caseDefault_(@Nonnull Function<S, R> function) {
+    return PatternMatchers.<S> caseDefault().then_(function);
   }
 
   public static <S> NullCase<S> caseNull() {
@@ -96,8 +96,8 @@ public final class PatternMatchers {
     return caseNull().then(block);
   }
 
-  public static <R> CaseFunction<Object, R> caseNullReturn(@Nonnull Supplier<R> supplier) {
-    return caseNull().thenReturn(supplier);
+  public static <R> CaseFunction<Object, R> caseNull_(@Nonnull Supplier<R> supplier) {
+    return caseNull().then_(supplier);
   }
 
   public static <S> NotNullCase<S> caseNotNull() {
@@ -112,8 +112,8 @@ public final class PatternMatchers {
     return PatternMatchers.<S> caseNotNull().then(consumer);
   }
 
-  public static <S, R> CaseFunction<S, R> caseNotNullReturn(@Nonnull Function<S, R> function) {
-    return PatternMatchers.<S> caseNotNull().thenReturn(function);
+  public static <S, R> CaseFunction<S, R> caseNotNull_(@Nonnull Function<S, R> function) {
+    return PatternMatchers.<S> caseNotNull().then_(function);
   }
 
   public static <S> PredicateCase<S> caseBoolean(Predicate<S> predicate) {
@@ -124,9 +124,9 @@ public final class PatternMatchers {
     return caseBoolean(predicate).then(consumer);
   }
 
-  public static <S, R> CaseFunction<S, R> caseBooleanReturn(@Nonnull Predicate<S> predicate,
+  public static <S, R> CaseFunction<S, R> caseBoolean_(@Nonnull Predicate<S> predicate,
       @Nonnull Function<S, R> function) {
-    return caseBoolean(predicate).thenReturn(function);
+    return caseBoolean(predicate).then_(function);
   }
 
   public static <S> MatcherCase<S> caseMatcher(Matcher<S> matcher) {
@@ -137,42 +137,42 @@ public final class PatternMatchers {
     return caseMatcher(matcher).then(consumer);
   }
 
-  public static <S, R> CaseFunction<S, R> caseMatcherReturn(@Nonnull Matcher<S> matcher,
+  public static <S, R> CaseFunction<S, R> caseMatcher_(@Nonnull Matcher<S> matcher,
       @Nonnull Function<S, R> function) {
-    return caseMatcher(matcher).thenReturn(function);
+    return caseMatcher(matcher).then_(function);
   }
 
-  public static <S, T extends S> ClassCase<S, T> caseClass(Class<T> matchClass) {
+  public static <S, T extends S> ClassCase<S, T> caseType(Class<T> matchClass) {
     return new ClassCase<S, T>(matchClass);
   }
 
-  public static <S, T extends S> CaseBlock<S> caseClass(@Nonnull Class<T> matchClass, @Nonnull Consumer<T> consumer) {
-    return PatternMatchers.<S, T> caseClass(matchClass).then(consumer);
+  public static <S, T extends S> CaseBlock<S> caseType(@Nonnull Class<T> matchClass, @Nonnull Consumer<T> consumer) {
+    return PatternMatchers.<S, T> caseType(matchClass).then(consumer);
   }
 
-  public static <S, T extends S, R> CaseFunction<S, R> caseClassReturn(@Nonnull Class<T> matchClass,
+  public static <S, T extends S, R> CaseFunction<S, R> caseType_(@Nonnull Class<T> matchClass,
       @Nonnull Function<T, R> function) {
-    return PatternMatchers.<S, T> caseClass(matchClass).thenReturn(function);
+    return PatternMatchers.<S, T> caseType(matchClass).then_(function);
   }
 
-  public static <S, T extends S> CaseBlock<S> caseClass(@Nonnull Class<T> matchClass, @Nonnull Predicate<T> predicate,
+  public static <S, T extends S> CaseBlock<S> caseType(@Nonnull Class<T> matchClass, @Nonnull Predicate<T> predicate,
       @Nonnull Consumer<T> consumer) {
-    return PatternMatchers.<S, T> caseClass(matchClass).with(predicate).then(consumer);
+    return PatternMatchers.<S, T> caseType(matchClass).with(predicate).then(consumer);
   }
 
-  public static <S, T extends S, R> CaseFunction<S, R> caseClassReturn(@Nonnull Class<T> matchClass,
+  public static <S, T extends S, R> CaseFunction<S, R> caseType_(@Nonnull Class<T> matchClass,
       @Nonnull Predicate<T> predicate, @Nonnull Function<T, R> function) {
-    return PatternMatchers.<S, T> caseClass(matchClass).with(predicate).thenReturn(function);
+    return PatternMatchers.<S, T> caseType(matchClass).with(predicate).then_(function);
   }
 
-  public static <S, T extends S> CaseBlock<S> caseClass(@Nonnull Class<T> matchClass, @Nonnull Matcher<T> matcher,
+  public static <S, T extends S> CaseBlock<S> caseType(@Nonnull Class<T> matchClass, @Nonnull Matcher<T> matcher,
       @Nonnull Consumer<T> consumer) {
-    return PatternMatchers.<S, T> caseClass(matchClass).with(matcher).then(consumer);
+    return PatternMatchers.<S, T> caseType(matchClass).with(matcher).then(consumer);
   }
 
-  public static <S, T extends S, R> CaseFunction<S, R> caseClassReturn(@Nonnull Class<T> matchClass,
+  public static <S, T extends S, R> CaseFunction<S, R> caseType_(@Nonnull Class<T> matchClass,
       @Nonnull Matcher<T> matcher, @Nonnull Function<T, R> function) {
-    return PatternMatchers.<S, T> caseClass(matchClass).with(matcher).thenReturn(function);
+    return PatternMatchers.<S, T> caseType(matchClass).with(matcher).then_(function);
   }
 
   public static RegexCase caseRegex(Pattern pattern) {
@@ -183,110 +183,110 @@ public final class PatternMatchers {
     return caseRegex(pattern).then(consumer);
   }
 
-  public static <R> CaseFunction<String, R> caseRegexReturn(@Nonnull Pattern pattern,
+  public static <R> CaseFunction<String, R> caseRegex_(@Nonnull Pattern pattern,
       @Nonnull Function<String, R> function) {
-    return caseRegex(pattern).thenReturn(function);
+    return caseRegex(pattern).then_(function);
   }
 
   public static CaseBlock<String> caseRegex(@Nonnull String regex, @Nonnull Consumer<String> consumer) {
     return caseRegex(Pattern.compile(regex)).then(consumer);
   }
 
-  public static <R> CaseFunction<String, R> caseRegexReturn(@Nonnull String regex, @Nonnull Function<String, R> function) {
-    return caseRegex(Pattern.compile(regex)).thenReturn(function);
+  public static <R> CaseFunction<String, R> caseRegex_(@Nonnull String regex, @Nonnull Function<String, R> function) {
+    return caseRegex(Pattern.compile(regex)).then_(function);
   }
 
   public static CaseBlock<String> caseRegex(@Nonnull String regex, int flags, @Nonnull Consumer<String> consumer) {
     return caseRegex(Pattern.compile(regex, flags)).then(consumer);
   }
 
-  public static <R> CaseFunction<String, R> caseRegexReturn(@Nonnull String regex, int flags,
+  public static <R> CaseFunction<String, R> caseRegex_(@Nonnull String regex, int flags,
       @Nonnull Function<String, R> function) {
-    return caseRegex(Pattern.compile(regex, flags)).thenReturn(function);
+    return caseRegex(Pattern.compile(regex, flags)).then_(function);
   }
 
-  public static <S> DisjunctionCase<S> caseValues(List<S> values) {
+  public static <S> DisjunctionCase<S> caseAnyValues(List<S> values) {
     return new DisjunctionCase<S>(values);
   }
 
-  public static <S> CaseBlock<S> caseValues(@Nonnull S value1, @Nonnull S value2, @Nonnull Consumer<S> consumer) {
+  public static <S> CaseBlock<S> caseAnyValues(@Nonnull S value1, @Nonnull S value2, @Nonnull Consumer<S> consumer) {
     List<S> values = new ArrayList<>();
     values.add(value1);
     values.add(value2);
-    return caseValues(values).then(consumer);
+    return caseAnyValues(values).then(consumer);
   }
 
-  public static <S> CaseBlock<S> caseValues(@Nonnull S value1, @Nonnull S value2, @Nonnull S value3,
+  public static <S> CaseBlock<S> caseAnyValues(@Nonnull S value1, @Nonnull S value2, @Nonnull S value3,
       @Nonnull Consumer<S> consumer) {
     List<S> values = new ArrayList<>();
     values.add(value1);
     values.add(value2);
     values.add(value3);
-    return caseValues(values).then(consumer);
+    return caseAnyValues(values).then(consumer);
   }
 
-  public static <S, R> CaseFunction<S, R> caseValuesReturn(@Nonnull S value1, @Nonnull S value2,
+  public static <S, R> CaseFunction<S, R> caseAnyValues_(@Nonnull S value1, @Nonnull S value2,
       @Nonnull Function<S, R> function) {
     List<S> values = new ArrayList<>();
     values.add(value1);
     values.add(value2);
-    return caseValues(values).thenReturn(function);
+    return caseAnyValues(values).then_(function);
   }
 
-  public static <S, R> CaseFunction<S, R> caseValuesReturn(@Nonnull S value1, @Nonnull S value2, @Nonnull S value3,
+  public static <S, R> CaseFunction<S, R> caseAnyValues_(@Nonnull S value1, @Nonnull S value2, @Nonnull S value3,
       @Nonnull Function<S, R> function) {
     List<S> values = new ArrayList<>();
     values.add(value1);
     values.add(value2);
     values.add(value3);
-    return caseValues(values).thenReturn(function);
+    return caseAnyValues(values).then_(function);
   }
 
   public static <T> OptionalMatcher<T> subject(@Nonnull Optional<T> subject) {
     return new OptionalMatcher<>(subject);
   }
 
-  public static <T> void match(@Nonnull Optional<T> subject, @Nonnull SomeCaseBlock<T> someCaseBlock,
-      @Nonnull NoneCaseBlock noneCaseBlock) {
-    subject(subject).matches(someCaseBlock, noneCaseBlock);
+  public static <T> void match(@Nonnull Optional<T> subject, @Nonnull OptionalPresentCaseBlock<T> optionalPresentCaseBlock,
+      @Nonnull OptionalEmptyCaseBlock optionalEmptyCaseBlock) {
+    subject(subject).matches(optionalPresentCaseBlock, optionalEmptyCaseBlock);
   }
 
-  public static <T, R> R match(@Nonnull Optional<T> subject, @Nonnull SomeCaseFunction<T, R> someCaseFunction,
-      @Nonnull NoneCaseFunction<R> noneCaseFunction) {
-    return subject(subject).matches(someCaseFunction, noneCaseFunction);
+  public static <T, R> R match(@Nonnull Optional<T> subject, @Nonnull OptionalPresentCaseFunction<T, R> optionalPresentCaseFunction,
+      @Nonnull OptionalEmptyCaseFunction<R> optionalEmptyCaseFunction) {
+    return subject(subject).matches(optionalPresentCaseFunction, optionalEmptyCaseFunction);
   }
 
   public static <T> void match(@Nonnull Optional<T> subject, @Nonnull Consumer<T> consumer, @Nonnull Block block) {
-    subject(subject).matches(caseSome(consumer), caseNone(block));
+    subject(subject).matches(casePresent(consumer), caseEmpty(block));
   }
 
   public static <T, R> R match(@Nonnull Optional<T> subject, @Nonnull Function<T, R> function,
       @Nonnull Supplier<R> supplier) {
-    return subject(subject).matches(caseSomeReturn(function), caseNoneReturn(supplier));
+    return subject(subject).matches(casePresent_(function), caseEmpty_(supplier));
   }
 
-  public static <T> SomeCase<T> caseSome() {
-    return new SomeCase<T>();
+  public static <T> OptionalPresentCase<T> casePresent() {
+    return new OptionalPresentCase<T>();
   }
 
-  public static <T> SomeCaseBlock<T> caseSome(@Nonnull Consumer<T> consumer) {
-    return PatternMatchers.<T> caseSome().then(consumer);
+  public static <T> OptionalPresentCaseBlock<T> casePresent(@Nonnull Consumer<T> consumer) {
+    return PatternMatchers.<T> casePresent().then(consumer);
   }
 
-  public static <T, R> SomeCaseFunction<T, R> caseSomeReturn(@Nonnull Function<T, R> function) {
-    return PatternMatchers.<T> caseSome().thenReturn(function);
+  public static <T, R> OptionalPresentCaseFunction<T, R> casePresent_(@Nonnull Function<T, R> function) {
+    return PatternMatchers.<T> casePresent().then_(function);
   }
 
-  public static NoneCase caseNone() {
-    return new NoneCase();
+  public static OptionalEmptyCase caseEmpty() {
+    return new OptionalEmptyCase();
   }
 
-  public static NoneCaseBlock caseNone(@Nonnull Block block) {
-    return caseNone().then(block);
+  public static OptionalEmptyCaseBlock caseEmpty(@Nonnull Block block) {
+    return caseEmpty().then(block);
   }
 
-  public static <R> NoneCaseFunction<R> caseNoneReturn(@Nonnull Supplier<R> supplier) {
-    return caseNone().thenReturn(supplier);
+  public static <R> OptionalEmptyCaseFunction<R> caseEmpty_(@Nonnull Supplier<R> supplier) {
+    return caseEmpty().then_(supplier);
   }
 
   public static <S1, S2> PatternMatcher2<S1, S2> subject(@Nullable S1 subject1, @Nullable S2 subject2) {
@@ -309,8 +309,8 @@ public final class PatternMatchers {
     return PatternMatchers.<S1> caseDefault().and(PatternMatchers.<S2> caseDefault()).then(consumer);
   }
 
-  public static <S1, S2, R> CaseFunction2<S1, S2, R> caseDefaultReturn(@Nonnull BiFunction<S1, S2, R> function) {
-    return PatternMatchers.<S1> caseDefault().and(PatternMatchers.<S2> caseDefault()).thenReturn(function);
+  public static <S1, S2, R> CaseFunction2<S1, S2, R> caseDefault_(@Nonnull BiFunction<S1, S2, R> function) {
+    return PatternMatchers.<S1> caseDefault().and(PatternMatchers.<S2> caseDefault()).then_(function);
   }
 
   public static <S1, S2> CaseBlock2<S1, S2> caseBoolean(@Nonnull Predicate<S1> predicate1,
@@ -318,9 +318,9 @@ public final class PatternMatchers {
     return caseBoolean(predicate1).and(caseBoolean(predicate2)).then(consumer);
   }
 
-  public static <S1, S2, R> CaseFunction2<S1, S2, R> caseBooleanReturn(@Nonnull Predicate<S1> predicate1,
+  public static <S1, S2, R> CaseFunction2<S1, S2, R> caseBoolean_(@Nonnull Predicate<S1> predicate1,
       @Nonnull Predicate<S2> predicate2, @Nonnull BiFunction<S1, S2, R> function) {
-    return caseBoolean(predicate1).and(caseBoolean(predicate2)).thenReturn(function);
+    return caseBoolean(predicate1).and(caseBoolean(predicate2)).then_(function);
   }
 
   public static <S1, S2> CaseBlock2<S1, S2> caseValue(@Nonnull S1 value1, @Nonnull S2 value2,
@@ -328,9 +328,9 @@ public final class PatternMatchers {
     return caseValue(value1).and(caseValue(value2)).then(consumer);
   }
 
-  public static <S1, S2, R> CaseFunction2<S1, S2, R> caseValueReturn(@Nonnull S1 value1, @Nonnull S2 value2,
+  public static <S1, S2, R> CaseFunction2<S1, S2, R> caseValue_(@Nonnull S1 value1, @Nonnull S2 value2,
       @Nonnull BiFunction<S1, S2, R> function) {
-    return caseValue(value1).and(caseValue(value2)).thenReturn(function);
+    return caseValue(value1).and(caseValue(value2)).then_(function);
   }
 
   public static <S1, S2> CaseBlock2<S1, S2> caseMatcher(@Nonnull Matcher<S1> matcher1, @Nonnull Matcher<S2> matcher2,
@@ -338,9 +338,9 @@ public final class PatternMatchers {
     return caseMatcher(matcher1).and(caseMatcher(matcher2)).then(consumer);
   }
 
-  public static <S1, S2, R> CaseFunction2<S1, S2, R> caseMatcherReturn(@Nonnull Matcher<S1> matcher1,
+  public static <S1, S2, R> CaseFunction2<S1, S2, R> caseMatcher_(@Nonnull Matcher<S1> matcher1,
       @Nonnull Matcher<S2> matcher2, @Nonnull BiFunction<S1, S2, R> function) {
-    return caseMatcher(matcher1).and(caseMatcher(matcher2)).thenReturn(function);
+    return caseMatcher(matcher1).and(caseMatcher(matcher2)).then_(function);
   }
 
 }

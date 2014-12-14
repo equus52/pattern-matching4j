@@ -4,10 +4,10 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
-import equus.matching.cases.NoneCase.NoneCaseBlock;
-import equus.matching.cases.NoneCase.NoneCaseFunction;
-import equus.matching.cases.SomeCase.SomeCaseBlock;
-import equus.matching.cases.SomeCase.SomeCaseFunction;
+import equus.matching.cases.OptionalEmptyCase.OptionalEmptyCaseBlock;
+import equus.matching.cases.OptionalEmptyCase.OptionalEmptyCaseFunction;
+import equus.matching.cases.OptionalPresentCase.OptionalPresentCaseBlock;
+import equus.matching.cases.OptionalPresentCase.OptionalPresentCaseFunction;
 
 public class OptionalMatcher<T> {
 
@@ -17,7 +17,7 @@ public class OptionalMatcher<T> {
     this.subject = subject;
   }
 
-  public void matches(@Nonnull SomeCaseBlock<T> someCaseBlock, NoneCaseBlock noneCaseBlock) {
+  public void matches(@Nonnull OptionalPresentCaseBlock<T> someCaseBlock, OptionalEmptyCaseBlock noneCaseBlock) {
     if (someCaseBlock.match(subject)) {
       someCaseBlock.accept(subject);
       return;
@@ -25,7 +25,7 @@ public class OptionalMatcher<T> {
     noneCaseBlock.accept(subject);
   }
 
-  public <R> R matches(@Nonnull SomeCaseFunction<T, R> someCaseFunction, @Nonnull NoneCaseFunction<R> noneCaseFunction) {
+  public <R> R matches(@Nonnull OptionalPresentCaseFunction<T, R> someCaseFunction, @Nonnull OptionalEmptyCaseFunction<R> noneCaseFunction) {
     if (someCaseFunction.match(subject)) {
       return someCaseFunction.apply(subject);
     }

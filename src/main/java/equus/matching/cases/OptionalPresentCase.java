@@ -10,11 +10,11 @@ import equus.matching.Case;
 import equus.matching.CaseBlock;
 import equus.matching.CaseFunction;
 
-public class SomeCase<T> implements Case<Optional<T>, T> {
+public class OptionalPresentCase<T> implements Case<Optional<T>, T> {
 
-  public SomeCase() {}
+  public OptionalPresentCase() {}
 
-  public SomeCase(Class<T> clazz) {}
+  public OptionalPresentCase(Class<T> clazz) {}
 
   @Override
   public boolean match(@Nonnull Optional<T> subject) {
@@ -26,15 +26,15 @@ public class SomeCase<T> implements Case<Optional<T>, T> {
     return subject.get();
   }
 
-  public static abstract class SomeCaseBlock<T1> implements CaseBlock<Optional<T1>> {}
+  public static abstract class OptionalPresentCaseBlock<T1> implements CaseBlock<Optional<T1>> {}
 
   @Override
-  public SomeCaseBlock<T> then(@Nonnull Consumer<T> consumer) {
-    return new SomeCaseBlock<T>() {
+  public OptionalPresentCaseBlock<T> then(@Nonnull Consumer<T> consumer) {
+    return new OptionalPresentCaseBlock<T>() {
 
       @Override
       public boolean match(Optional<T> subject) {
-        return SomeCase.this.match(subject);
+        return OptionalPresentCase.this.match(subject);
       }
 
       @Override
@@ -44,15 +44,15 @@ public class SomeCase<T> implements Case<Optional<T>, T> {
     };
   }
 
-  public static abstract class SomeCaseFunction<T1, R> implements CaseFunction<Optional<T1>, R> {}
+  public static abstract class OptionalPresentCaseFunction<T1, R> implements CaseFunction<Optional<T1>, R> {}
 
   @Override
-  public <R> SomeCaseFunction<T, R> thenReturn(@Nonnull Function<T, R> function) {
-    return new SomeCaseFunction<T, R>() {
+  public <R> OptionalPresentCaseFunction<T, R> then_(@Nonnull Function<T, R> function) {
+    return new OptionalPresentCaseFunction<T, R>() {
 
       @Override
       public boolean match(Optional<T> subject) {
-        return SomeCase.this.match(subject);
+        return OptionalPresentCase.this.match(subject);
       }
 
       @Override

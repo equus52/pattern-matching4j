@@ -24,7 +24,7 @@ public interface Case<S, T> extends Matcher<S> {
     };
   }
 
-  default <R> CaseFunction<S, R> thenReturn(@Nonnull Function<T, R> function) {
+  default <R> CaseFunction<S, R> then_(@Nonnull Function<T, R> function) {
     return new CaseFunction<S, R>() {
 
       @Override

@@ -15,7 +15,7 @@ public interface NothingCase<S> extends Case<S, Void> {
     return then(v -> block.apply());
   }
 
-  default <R> CaseFunction<S, R> thenReturn(@Nonnull Supplier<R> supplier) {
-    return thenReturn(v -> supplier.get());
+  default <R> CaseFunction<S, R> then_(@Nonnull Supplier<R> supplier) {
+    return then_(v -> supplier.get());
   }
 }
