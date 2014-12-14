@@ -26,11 +26,11 @@ public class PatternMatchersTest {
   public void match_case_value_return() {
 
     BigDecimal num = BigDecimal.ZERO;
-    Optional<Integer> result = match(num, //
+    Integer result = match(num, //
         caseValue_(BigDecimal.ONE, o -> -1), //
         caseValue_(BigDecimal.ZERO, o -> 0), //
         caseDefault_(o -> -1));
-    assertThat(result.get(), is(0));
+    assertThat(result, is(0));
   }
 
   @Test
@@ -43,15 +43,23 @@ public class PatternMatchersTest {
         caseDefault(o -> assertThat(o, is(num))));
   }
 
-  @Test
   public void match_case_default_return() {
 
     BigDecimal num = BigDecimal.ZERO;
-    Optional<Integer> result = match(num, //
+    Integer result = match(num, //
         caseValue_(BigDecimal.ONE, o -> -1), //
         caseValue_(BigDecimal.TEN, o -> -1), //
         caseDefault_(o -> null));
-    assertThat(result.isPresent(), is(false));
+    assertThat(result, is((Integer) null));
+  }
+
+  @Test(expected = MatchError.class)
+  public void match_case_MatchError() {
+
+    BigDecimal num = BigDecimal.ZERO;
+    match(num, //
+        caseValue_(BigDecimal.ONE, o -> -1), //
+        caseValue_(BigDecimal.TEN, o -> -1));
   }
 
   @Test
@@ -66,11 +74,11 @@ public class PatternMatchersTest {
   @Test
   public void match_case_class_return() {
     Number integer = 1;
-    Optional<String> result = match(integer,//
+    String result = match(integer,//
         caseType_(Integer.class, i -> "OK"), //
         caseType_(Double.class, s -> "NG"), //
         caseDefault_(o -> "NG"));
-    assertThat(result.get(), is("OK"));
+    assertThat(result, is("OK"));
   }
 
   @Test
@@ -86,12 +94,12 @@ public class PatternMatchersTest {
   @Test
   public void match_case_class_boolean_return() {
     Number integer = 1;
-    Optional<String> result = match(integer,//
+    String result = match(integer,//
         caseType_(Integer.class, i -> i == 0, i -> "OK"), //
         caseType_(Double.class, i -> i > 0, i -> "NG"), //
         caseType_(Integer.class, i -> i > 0, i -> "OK"), //
         caseDefault_(o -> "NG"));
-    assertThat(result.get(), is("OK"));
+    assertThat(result, is("OK"));
   }
 
   @Test
@@ -107,12 +115,12 @@ public class PatternMatchersTest {
   @Test
   public void match_case_class_matcher_return() {
     Number integer = 1;
-    Optional<String> result = match(integer,//
+    String result = match(integer,//
         caseType_(Integer.class, is(0), i -> "OK"), //
         caseType_(Double.class, greaterThan(0.0), i -> "NG"), //
         caseType_(Integer.class, greaterThan(0), i -> "OK"), //
         caseDefault_(o -> "NG"));
-    assertThat(result.get(), is("OK"));
+    assertThat(result, is("OK"));
   }
 
   @Test
@@ -127,11 +135,11 @@ public class PatternMatchersTest {
   @Test
   public void match_case_null_return() {
     String str = null;
-    Optional<Integer> result = match(str, //
+    Integer result = match(str, //
         caseType_(String.class, s -> -1), //
         caseNull_(() -> 0), //
         caseDefault_(o -> -1));
-    assertThat(result.get(), is(0));
+    assertThat(result, is(0));
   }
 
   @Test
@@ -146,11 +154,11 @@ public class PatternMatchersTest {
   @Test
   public void match_case_not_null_return() {
     String str = "test";
-    Optional<Integer> result = match(str, //
+    Integer result = match(str, //
         caseNull_(() -> -1), //
         caseNotNull_(s -> 0), //
         caseDefault_(o -> -1));
-    assertThat(result.get(), is(0));
+    assertThat(result, is(0));
   }
 
   @Test
@@ -175,19 +183,19 @@ public class PatternMatchersTest {
   public void match_case_boolean_return() {
     {
       int num = 5;
-      Optional<Integer> result = match(num, //
+      Integer result = match(num, //
           caseBoolean_(i -> i > 5, i -> -1), //
           caseBoolean_(i -> i == 5, i -> i * 0), //
           caseDefault_(o -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
     {
       String str = null;
-      Optional<Integer> result = match(str, //
+      Integer result = match(str, //
           caseBoolean_(s -> s != null, s -> -1), //
           caseBoolean_(s -> s == null, s -> 0), //
           caseDefault_(o -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
   }
 
@@ -213,19 +221,19 @@ public class PatternMatchersTest {
   public void match_case_matcher_return() {
     {
       String str = "test";
-      Optional<Integer> result = match(str, //
+      Integer result = match(str, //
           caseMatcher_(is("test2"), s -> -1), //
           caseMatcher_(startsWith("te"), s -> 0), //
           caseDefault_(o -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
     {
       String str = null;
-      Optional<Integer> result = match(str, //
+      Integer result = match(str, //
           caseMatcher_(is("test2"), s -> -1), //
           caseMatcher_(is((String) null), s -> 0), //
           caseDefault_(o -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
   }
 
@@ -258,27 +266,27 @@ public class PatternMatchersTest {
   public void match_case_regex_return() {
     {
       String str = "test";
-      Optional<Integer> result = match(str, //
+      Integer result = match(str, //
           caseRegex_(Pattern.compile("^Te"), s -> -1), //
           caseRegex_(Pattern.compile("^te"), s -> 0), //
           caseDefault_(o -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
     {
       String str = "test";
-      Optional<Integer> result = match(str, //
+      Integer result = match(str, //
           caseRegex_("^Te", s -> -1), //
           caseRegex_("^te", s -> 0), //
           caseDefault_(o -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
     {
       String str = "test";
-      Optional<Integer> result = match(str, //
+      Integer result = match(str, //
           caseRegex_("^Te", Pattern.CASE_INSENSITIVE, s -> 0), //
           caseRegex_("^te", s -> -1), //
           caseDefault_(o -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
   }
 
@@ -311,27 +319,27 @@ public class PatternMatchersTest {
   public void match_case_disjunction_return() {
     {
       String str = "test";
-      Optional<Integer> result = match(str, //
+      Integer result = match(str, //
           caseAnyValues_("test1", "test2", s -> -1), //
           caseAnyValues_("test1", "test", s -> 0), //
           caseDefault_(o -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
     {
       String str = "test";
-      Optional<Integer> result = match(str, //
+      Integer result = match(str, //
           caseAnyValues_("test1", "test2", s -> -1), //
           caseAnyValues_("test", "test2", s -> 0), //
           caseDefault_(o -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
     {
       String str = "test";
-      Optional<Integer> result = match(str, //
+      Integer result = match(str, //
           caseAnyValues_("test1", "test2", "test3", s -> -1), //
           caseAnyValues_("test1", "test2", "test", s -> 0), //
           caseDefault_(o -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
   }
 
@@ -390,20 +398,20 @@ public class PatternMatchersTest {
     {
       int num1 = 5;
       int num2 = 9;
-      Optional<Integer> result = match(num1, num2, //
+      Integer result = match(num1, num2, //
           caseBoolean_(i -> i > 5, i -> i > 5, (i1, i2) -> -1), //
           caseBoolean_(i -> i == 5, i -> i == 9, (i1, i2) -> i1 * i2 * 0), //
           caseDefault_((i1, i2) -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
     {
       int num1 = 5;
       int num2 = 9;
-      Optional<Integer> result = match(num1, num2, //
+      Integer result = match(num1, num2, //
           caseBoolean_(i -> i > 5, i -> i > 5, (i1, i2) -> -1), //
           caseBoolean((Integer i) -> i == 5).and(caseAny(Integer.class)).then_((i1, i2) -> i1 * i2 * 0), //
           caseDefault_((i1, i2) -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
   }
 
@@ -432,20 +440,20 @@ public class PatternMatchersTest {
     {
       int num1 = 5;
       int num2 = 9;
-      Optional<Integer> result = match(num1, num2, //
+      Integer result = match(num1, num2, //
           caseValue_(5, 5, (i1, i2) -> -1), //
           caseValue_(5, 9, (i1, i2) -> i1 * i2 * 0), //
           caseDefault_((i1, i2) -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
     {
       int num1 = 5;
       int num2 = 9;
-      Optional<Integer> result = match(num1, num2, //
+      Integer result = match(num1, num2, //
           caseValue_(5, 5, (i1, i2) -> -1), //
           caseValue(5).and(caseAny(Integer.class)).then_((i1, i2) -> i1 * i2 * 0), //
           caseDefault_((i1, i2) -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
   }
 
@@ -474,20 +482,20 @@ public class PatternMatchersTest {
     {
       int num1 = 5;
       int num2 = 9;
-      Optional<Integer> result = match(num1, num2, //
+      Integer result = match(num1, num2, //
           caseMatcher_(greaterThan(5), greaterThan(9), (i1, i2) -> -1), //
           caseMatcher_(is(5), greaterThan(8), (i1, i2) -> i1 * i2 * 0), //
           caseDefault_((i1, i2) -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
     {
       int num1 = 5;
       int num2 = 9;
-      Optional<Integer> result = match(num1, num2, //
+      Integer result = match(num1, num2, //
           caseMatcher_(greaterThan(5), greaterThan(9), (i1, i2) -> -1), //
           caseMatcher(is(5)).and(caseAny(Integer.class)).then_((i1, i2) -> i1 * i2 * 0), //
           caseDefault_((i1, i2) -> -1));
-      assertThat(result.get(), is(0));
+      assertThat(result, is(0));
     }
   }
 

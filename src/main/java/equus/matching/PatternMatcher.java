@@ -1,7 +1,5 @@
 package equus.matching;
 
-import java.util.Optional;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -24,13 +22,13 @@ public class PatternMatcher<S> {
   }
 
   @SafeVarargs
-  public final <R> Optional<R> matches(@Nonnull CaseFunction<S, R>... caseFunctions) {
+  public final <R> R matches(@Nonnull CaseFunction<S, R>... caseFunctions) {
     for (CaseFunction<S, R> caseFunction : caseFunctions) {
       if (caseFunction.match(subject)) {
-        return Optional.ofNullable(caseFunction.apply(subject));
+        return caseFunction.apply(subject);
       }
     }
-    return Optional.empty();
+    throw new MatchError(subject);
   }
 
 }

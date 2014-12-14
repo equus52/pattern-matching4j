@@ -21,16 +21,16 @@ import equus.matching.cases.ClassCase;
 import equus.matching.cases.DisjunctionCase;
 import equus.matching.cases.EqualsCase;
 import equus.matching.cases.MatcherCase;
+import equus.matching.cases.NotNullCase;
+import equus.matching.cases.NullCase;
 import equus.matching.cases.OptionalEmptyCase;
 import equus.matching.cases.OptionalEmptyCase.OptionalEmptyCaseBlock;
 import equus.matching.cases.OptionalEmptyCase.OptionalEmptyCaseFunction;
-import equus.matching.cases.NotNullCase;
-import equus.matching.cases.NullCase;
-import equus.matching.cases.PredicateCase;
-import equus.matching.cases.RegexCase;
 import equus.matching.cases.OptionalPresentCase;
 import equus.matching.cases.OptionalPresentCase.OptionalPresentCaseBlock;
 import equus.matching.cases.OptionalPresentCase.OptionalPresentCaseFunction;
+import equus.matching.cases.PredicateCase;
+import equus.matching.cases.RegexCase;
 
 public final class PatternMatchers {
 
@@ -46,7 +46,7 @@ public final class PatternMatchers {
   }
 
   @SafeVarargs
-  public static <S, R> Optional<R> match(@Nullable S subject, @Nonnull CaseFunction<S, R>... caseFunctions) {
+  public static <S, R> R match(@Nullable S subject, @Nonnull CaseFunction<S, R>... caseFunctions) {
     return subject(subject).matches(caseFunctions);
   }
 
@@ -55,7 +55,7 @@ public final class PatternMatchers {
     subject(subject).matches(caseType(matchClass, consumer));
   }
 
-  public static <S, T extends S, R> Optional<R> instanceOf(@Nullable S subject, @Nonnull Class<T> matchClass,
+  public static <S, T extends S, R> R instanceOf(@Nullable S subject, @Nonnull Class<T> matchClass,
       @Nonnull Function<T, R> function) {
     return subject(subject).matches(caseType_(matchClass, function));
   }
@@ -124,8 +124,7 @@ public final class PatternMatchers {
     return caseBoolean(predicate).then(consumer);
   }
 
-  public static <S, R> CaseFunction<S, R> caseBoolean_(@Nonnull Predicate<S> predicate,
-      @Nonnull Function<S, R> function) {
+  public static <S, R> CaseFunction<S, R> caseBoolean_(@Nonnull Predicate<S> predicate, @Nonnull Function<S, R> function) {
     return caseBoolean(predicate).then_(function);
   }
 
@@ -137,8 +136,7 @@ public final class PatternMatchers {
     return caseMatcher(matcher).then(consumer);
   }
 
-  public static <S, R> CaseFunction<S, R> caseMatcher_(@Nonnull Matcher<S> matcher,
-      @Nonnull Function<S, R> function) {
+  public static <S, R> CaseFunction<S, R> caseMatcher_(@Nonnull Matcher<S> matcher, @Nonnull Function<S, R> function) {
     return caseMatcher(matcher).then_(function);
   }
 
@@ -183,8 +181,7 @@ public final class PatternMatchers {
     return caseRegex(pattern).then(consumer);
   }
 
-  public static <R> CaseFunction<String, R> caseRegex_(@Nonnull Pattern pattern,
-      @Nonnull Function<String, R> function) {
+  public static <R> CaseFunction<String, R> caseRegex_(@Nonnull Pattern pattern, @Nonnull Function<String, R> function) {
     return caseRegex(pattern).then_(function);
   }
 
@@ -246,12 +243,14 @@ public final class PatternMatchers {
     return new OptionalMatcher<>(subject);
   }
 
-  public static <T> void match(@Nonnull Optional<T> subject, @Nonnull OptionalPresentCaseBlock<T> optionalPresentCaseBlock,
+  public static <T> void match(@Nonnull Optional<T> subject,
+      @Nonnull OptionalPresentCaseBlock<T> optionalPresentCaseBlock,
       @Nonnull OptionalEmptyCaseBlock optionalEmptyCaseBlock) {
     subject(subject).matches(optionalPresentCaseBlock, optionalEmptyCaseBlock);
   }
 
-  public static <T, R> R match(@Nonnull Optional<T> subject, @Nonnull OptionalPresentCaseFunction<T, R> optionalPresentCaseFunction,
+  public static <T, R> R match(@Nonnull Optional<T> subject,
+      @Nonnull OptionalPresentCaseFunction<T, R> optionalPresentCaseFunction,
       @Nonnull OptionalEmptyCaseFunction<R> optionalEmptyCaseFunction) {
     return subject(subject).matches(optionalPresentCaseFunction, optionalEmptyCaseFunction);
   }
@@ -300,7 +299,7 @@ public final class PatternMatchers {
   }
 
   @SafeVarargs
-  public static <S1, S2, R> Optional<R> match(@Nullable S1 subject1, @Nullable S2 subject2,
+  public static <S1, S2, R> R match(@Nullable S1 subject1, @Nullable S2 subject2,
       @Nonnull CaseFunction2<S1, S2, R>... caseFunctions) {
     return subject(subject1, subject2).matches(caseFunctions);
   }
