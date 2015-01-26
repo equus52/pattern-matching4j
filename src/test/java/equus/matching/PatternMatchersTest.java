@@ -243,20 +243,20 @@ public class PatternMatchersTest {
       String str = "test";
       match(str, //
           caseRegex(Pattern.compile("^Te"), s -> fail()), //
-          caseRegex(Pattern.compile("^te"), s -> assertThat(s, is(str))), //
+          caseRegex(Pattern.compile("^te"), s -> assertThat(s, is("te"))), //
           caseDefault(o -> fail()));
     }
     {
       String str = "test";
       match(str, //
           caseRegex("^Te", s -> fail()), //
-          caseRegex("^te", s -> assertThat(s, is(str))), //
+          caseRegex("^te", s -> assertThat(s, is("te"))), //
           caseDefault(o -> fail()));
     }
     {
       String str = "test";
       match(str, //
-          caseRegex("^Te", Pattern.CASE_INSENSITIVE, s -> assertThat(s, is(str))), //
+          caseRegex("^Te", Pattern.CASE_INSENSITIVE, s -> assertThat(s, is("te"))), //
           caseRegex("^te", s -> fail()), //
           caseDefault(o -> fail()));
     }

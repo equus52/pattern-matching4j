@@ -1,5 +1,6 @@
 package equus.matching.cases;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
@@ -19,4 +20,13 @@ public class RegexCase implements NoConvertCase<String> {
     return pattern.matcher(subject).find();
   }
 
+  @Override
+  public String convert(String subject) {
+    Matcher matcher = pattern.matcher(subject);
+    if (matcher.find()) {
+      return matcher.group();
+    } else {
+      throw new RuntimeException();
+    }
+  }
 }
